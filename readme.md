@@ -16,6 +16,8 @@ If you have previously loaded in this data, you can wipe your database 100% clea
 npm run blowitallaway
 ```
 
+![](https://picsum.photos/id/2/200)
+
 That will populate 16 stores with 3 authors and 41 reviews. The logins for the authors are as follows:
 
 |Name|Email (login)|Password|
