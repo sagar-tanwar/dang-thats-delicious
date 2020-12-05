@@ -9,7 +9,7 @@ router.get('/', catchErrors(storeController.getStores));
 
 router.get('/stores', catchErrors(storeController.getStores));
 
-router.get('/add', storeController.addStore);
+router.get('/add', authController.isLoggedIn, storeController.addStore);
 
 router.post('/add', 
   storeController.upload,
@@ -31,16 +31,31 @@ router.get('/tags', storeController.getStoresByTag);
 
 router.get('/tags/:tag', storeController.getStoresByTag);
 
-router.get('/login', userController.loginForm);
-
-router.post('/login', userController.loginForm);
-
 router.get('/register', userController.registerForm);
 
 router.post('/register', 
   userController.validateRegister,
   userController.register,
   authController.login
+);
+
+router.get('/login', userController.loginForm);
+
+router.post('/login', authController.login);
+
+router.get('/logout', authController.logout);
+
+router.get('/account', authController.isLoggedIn, userController.account);
+
+router.post('/account', catchErrors(userController.updateAccount));
+
+router.post('/account/forgot', catchErrors(authController.forgot));
+
+router.get('/account/reset/:token', catchErrors(authController.reset));
+
+router.post('/account/reset/:token', 
+  authController.confirmedPasswords, 
+  catchErrors(authController.update)
 );
 
 module.exports = router;
