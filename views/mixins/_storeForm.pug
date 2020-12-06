@@ -4,7 +4,7 @@ mixin storeForm(store = {})
     input(id="name" type="text" name="name" value=store.name)
     label(for="description") Description
     textarea(id="description" name="description")= store.description
-    label(for="photo")
+    label(for="photo") Store Image
     input(id="photo" type="file" name="photo" accept="image/jpeg, image/png, image/gif")
     if store.photo
       img(src=`/uploads/${store.photo}` alt=store.name width=300)
