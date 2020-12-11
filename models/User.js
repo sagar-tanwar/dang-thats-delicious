@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 const validator = require('validator');
@@ -7,7 +6,7 @@ const md5 = require('md5');
 const mongoodbErrorHandler = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: 'Please enter a name!',
@@ -22,7 +21,8 @@ const userSchema = new Schema({
     validate: [validator.isEmail, 'Please enter a valid email!']
   },
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  hearts: [{ type: mongoose.Schema.ObjectId, ref: 'Store' }]
 });
 
 userSchema.virtual('gravatar').get(function () {
