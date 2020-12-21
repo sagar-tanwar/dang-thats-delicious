@@ -1036,11 +1036,6 @@ var _bling = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var mapOptions = {
-  center: { lat: 43.2, lng: -79.8 },
-  zoom: 10
-};
-
 function loadPlaces(map) {
   var lat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 43.2;
   var lng = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -79.8;
@@ -1090,11 +1085,11 @@ function loadPlaces(map) {
   });
 }
 
-function makeMap(mapDiv) {
+function makeMap(mapDiv, mapOptions) {
   if (!mapDiv) return;
 
   var map = new google.maps.Map(mapDiv, mapOptions);
-  loadPlaces(map);
+  loadPlaces(map, mapOptions.center.lat, mapOptions.center.lng);
 
   var autocomplete = new google.maps.places.Autocomplete((0, _bling.$)('input[name=geolocate]'));
   autocomplete.addListener('place_changed', function () {
@@ -2829,7 +2824,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, _typeAhead2.default)((0, _bling.$)('.search'));
 
-(0, _map2.default)((0, _bling.$)('#map'));
+var mapOptions = { zoom: 10 };
+
+navigator.geolocation.getCurrentPosition(function (_ref) {
+  var coords = _ref.coords;
+
+  mapOptions.center = { lat: coords.latitude, lng: coords.longitude };
+  (0, _map2.default)((0, _bling.$)('#map'), mapOptions);
+}, function () {
+  mapOptions.center = { lat: 43.2, lng: -79.8 };
+  (0, _map2.default)((0, _bling.$)('#map'), mapOptions);
+});
 
 var hearts = (0, _bling.$$)('form.heart');
 hearts.on('click', _heart2.default);

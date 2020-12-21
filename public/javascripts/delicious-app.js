@@ -11,7 +11,16 @@ autocomplete($('#address'), $('#lat'), $('#lng'))
 
 typeAhead($('.search'));
 
-makeMap($('#map'));
+const mapOptions = { zoom: 10 }
+
+navigator.geolocation.getCurrentPosition(({coords}) => {
+  mapOptions.center = { lat: coords.latitude, lng: coords.longitude };
+  makeMap($('#map'), mapOptions);
+}, () => {
+  mapOptions.center = { lat: 43.2, lng: -79.8 }
+  makeMap($('#map'), mapOptions);
+})
+
 
 const hearts = $$('form.heart');
 hearts.on('click', ajaxHeart);
